@@ -16,7 +16,7 @@ MAINTAINER="Hayqe"
 # SourceForge (upload via SSH/rsync)
 SF_USER="${SF_USER:-hayqe}"
 SF_PROJECT="${SF_PROJECT:-garnet-evolutionx}"
-SF_DIR="${SF_DIR:-garnet}"            # map binnen het SourceForge-project
+SF_DIR="${SF_DIR:-}"                  # leeg = projectroot; een submap moet je eerst in de SF-webui aanmaken
 
 # OTA-JSON in deze repo (gehost op raw.githubusercontent.com/.../ota/{device}.json)
 OTA_JSON="ota/${DEVICE}.json"
@@ -37,11 +37,18 @@ SIZE="$(stat -c '%s' "$ZIP")"
 TIMESTAMP="$(date +%s)"   # > ro.build.date.utc van de vorige build → update wordt geaccepteerd
 
 # --- Upload naar SourceForge ------------------------------------------------
+if [ -n "$SF_DIR" ]; then
+  REMOTE_DIR="/home/frs/project/${SF_PROJECT}/${SF_DIR}"
+  URL_PREFIX="https://downloads.sourceforge.net/project/${SF_PROJECT}/${SF_DIR}/"
+else
+  REMOTE_DIR="/home/frs/project/${SF_PROJECT}"
+  URL_PREFIX="https://downloads.sourceforge.net/project/${SF_PROJECT}/"
+fi
+
 if [ -n "$SF_USER" ] && [ -n "$SF_PROJECT" ]; then
-  echo "Uploaden naar SourceForge (${SF_PROJECT}/${SF_DIR})..."
-  ssh "${SF_USER}@frs.sourceforge.net" "mkdir -p /home/frs/project/${SF_PROJECT}/${SF_DIR}" 2>/dev/null || true
-  rsync -avP -e ssh "$ZIP" "${SF_USER}@frs.sourceforge.net:/home/frs/project/${SF_PROJECT}/${SF_DIR}/"
-  DOWNLOAD_URL="https://downloads.sourceforge.net/project/${SF_PROJECT}/${SF_DIR}/${FILENAME}"
+  echo "Uploaden naar SourceForge (${SF_PROJECT}/${SF_DIR:-root})..."
+  rsync -avP -e ssh "$ZIP" "${SF_USER}@frs.sourceforge.net:${REMOTE_DIR}/"
+  DOWNLOAD_URL="${URL_PREFIX}${FILENAME}"
 else
   echo "Waarschuwing: SF_USER/SF_PROJECT niet ingesteld; 'download' blijft leeg." >&2
   DOWNLOAD_URL=""
