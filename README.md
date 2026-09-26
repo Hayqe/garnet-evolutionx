@@ -62,7 +62,10 @@ vanaf het toestel te extraheren.
 
 ### Eenmalige host-fix: extra swap + systemd-oomd uit
 
-Zonder deze fix wordt de build tijdens de Soong-analyse OOM-gekilled:
+Zonder deze fix wordt de build tijdens de Soong-analyse OOM-gekilled.
+
+> Makkelijkst: draai `sudo ./fix-host.sh` — dat doet alles hieronder in één keer
+> (en is idempotent, dus veilig om vaker te draaien).
 
 ```bash
 # Extra 32 GB swap (alleen de eerste keer nodig)
@@ -100,6 +103,7 @@ sudo systemctl mask systemd-oomd.service systemd-oomd.socket
 | `release.sh` | Publiceert een nieuwe build als OTA (SourceForge-upload + JSON) |
 | `setup-keys.sh` | Kopieert release-signing keys naar de build-tree (release-keys) |
 | `sync-device-tree.sh` | Synct de device-tree fork met upstream (rebase eigen commits) |
+| `fix-host.sh` | Herstelt swap + systemd-oomd (host-voorwaarden voor de build) |
 | `local_manifests/garnet.xml` | Versied copy van de local_manifest (device tree wijst naar eigen fork) |
 | `ota/garnet.json` | OTA-metadata die de Updater-app op het toestel uitleest |
 | `src/` | De volledige AOSP/EvolutionX-bron |
