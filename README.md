@@ -215,7 +215,9 @@ release key (niet de publieke testkeys) door:
 
 Dit kopieert de keys van `~/.android-certs/` naar `src/vendor/evolution-priv/keys/`
 en schrijft `keys.mk`. EvolutionX pikt die automatisch op, waardoor de build met
-`release-keys` wordt getekend (in plaats van `test-keys`).
+`release-keys` wordt getekend (in plaats van `test-keys`). Daarnaast wordt een
+AVB-key (RSA-4096, `avb.pem`) gegenereerd en door de device-tree fork gebruikt voor
+Verified Boot.
 
 > ⚠️ De private keys in `src/vendor/evolution-priv/keys/` worden **niet** gecommit
 > (valt onder `src/` in `.gitignore`). Bewaar `~/.android-certs/` veilig — raak je de
