@@ -15,9 +15,10 @@ De flashbare ROM staat na een build op:
 src/out/target/product/garnet/EvolutionX-16.0-<datum>-garnet-11.11-Unofficial.zip
 ```
 
-> ⚠️ Dit is een **Unofficial** build, ondertekend met testkeys.
-> **Play Integrity / SafetyNet werkt niet out-of-the-box** — Google Pay, sommige
-> bank-apps en Netflix kunnen weigeren (op te lossen met een Play Integrity Fix).
+> ⚠️ Dit is een **Unofficial** build, getekend met je eigen release keys (zie
+> [Signing](#signing)). **Play Integrity / SafetyNet werkt niet out-of-the-box** —
+> Google Pay, sommige bank-apps en Netflix kunnen weigeren (op te lossen met een
+> Play Integrity Fix).
 
 ---
 
@@ -32,7 +33,7 @@ src/out/target/product/garnet/EvolutionX-16.0-<datum>-garnet-11.11-Unofficial.zi
 | Broncode | `src/` → gemount op `/src` in de container |
 | Ccache | `ccache/` → gemount op `/ccache` (50 GB) |
 | Manifest | EvolutionX branch `bka` = Android 16 (`android-16.0.0_r4`) |
-| Device tree | `Evolution-X-Devices/device_xiaomi_garnet` (productnaam `lineage_garnet`) |
+| Device tree | fork van `Evolution-X-Devices/device_xiaomi_garnet` → `Hayqe/device_xiaomi_garnet` (productnaam `lineage_garnet`) |
 | Build-target | `lunch lineage_garnet-userdebug` → `m evolution` |
 
 ### Waarom een local_manifest nodig is
