@@ -65,11 +65,16 @@ vanaf het toestel te extraheren.
 Zonder deze fix wordt de build tijdens de Soong-analyse OOM-gekilled:
 
 ```bash
+# Extra 32 GB swap (alleen de eerste keer nodig)
 sudo fallocate -l 32G /swapfile2
 sudo chmod 600 /swapfile2
 sudo mkswap /swapfile2
-sudo swapon /swapfile2
 
+# Swap activeren én persistent maken (anders raak je hem kwijt na een reboot)
+sudo swapon /swapfile2
+echo '/swapfile2 none swap sw 0 0' | sudo tee -a /etc/fstab
+
+# systemd-oomd écht uitzetten: service én socket stoppen en masken
 sudo systemctl stop systemd-oomd.service systemd-oomd.socket
 sudo systemctl mask systemd-oomd.service systemd-oomd.socket
 ```
@@ -77,8 +82,11 @@ sudo systemctl mask systemd-oomd.service systemd-oomd.socket
 > `systemctl disable --now systemd-oomd` alleen is **niet** genoeg — de socket
 > start de service opnieuw via socket-activatie. Je moet ook de socket stoppen/masken.
 >
-> Terugdraaien: `sudo swapoff /swapfile2 && sudo rm /swapfile2` en
-> `sudo systemctl unmask systemd-oomd.service systemd-oomd.socket && sudo systemctl enable --now systemd-oomd`.
+> Controleer na afloop: `free -h` (swap moet ~40 GB tonen) en
+> `systemctl is-active systemd-oomd.service` (moet `inactive` zijn).
+>
+> Terugdraaien: `sudo swapoff /swapfile2 && sudo rm /swapfile2` (en de regel uit
+> `/etc/fstab`) en `sudo systemctl unmask systemd-oomd.service systemd-oomd.socket && sudo systemctl enable --now systemd-oomd`.
 
 ---
 
