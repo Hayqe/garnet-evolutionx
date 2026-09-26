@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <!-- Eigen fork van de device tree (bevat UpdaterOverlayGarnet voor OTA). -->
+  <remote name="github-hayqe" fetch="https://github.com/Hayqe" />
+
+  <project name="device_xiaomi_garnet" path="device/xiaomi/garnet" remote="github-hayqe" revision="bka" />
+
+  <!-- Dependencies mirroring device/xiaomi/garnet/evolution.dependencies -->
+  <project name="vendor_xiaomi_garnet" path="vendor/xiaomi/garnet" remote="evo-devices" revision="bka" />
+  <project name="kernel_xiaomi_garnet" path="kernel/xiaomi/sm7435" remote="evo-devices" revision="bka" />
+  <project name="kernel_xiaomi_garnet-modules" path="kernel/xiaomi/sm7435-modules" remote="evo-devices" revision="bka" />
+  <project name="kernel_xiaomi_garnet-devicetrees" path="kernel/xiaomi/sm7435-devicetrees" remote="evo-devices" revision="bka" />
+  <project name="Evolution-X-Devices/hardware_xiaomi" path="hardware/xiaomi" remote="github-non-los" revision="bka-no-dolby" />
+  <project name="Evolution-X-Devices/hardware_dolby" path="hardware/dolby" remote="github-non-los" revision="bka-aospa" />
+  <project name="device_xiaomi_garnet-miuicamera" path="device/xiaomi/garnet-miuicamera" remote="evo-devices" revision="bka" />
+  <project name="c0pt4n/proprietary_vendor_xiaomi_garnet-miuicamera" path="vendor/xiaomi/garnet-miuicamera" remote="gitlab" revision="lineage-23.0" />
+  <project name="packages_apps_GameBar" path="packages/apps/GameBar" remote="evo-devices" revision="bka" />
+</manifest>
