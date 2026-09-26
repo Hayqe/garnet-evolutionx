@@ -91,6 +91,7 @@ sudo systemctl mask systemd-oomd.service systemd-oomd.socket
 | `check-updates.sh` | Controleert of er nieuwe upstream-commits zijn |
 | `release.sh` | Publiceert een nieuwe build als OTA (SourceForge-upload + JSON) |
 | `setup-keys.sh` | Kopieert release-signing keys naar de build-tree (release-keys) |
+| `sync-device-tree.sh` | Synct de device-tree fork met upstream (rebase eigen commits) |
 | `local_manifests/garnet.xml` | Versied copy van de local_manifest (device tree wijst naar eigen fork) |
 | `ota/garnet.json` | OTA-metadata die de Updater-app op het toestel uitleest |
 | `src/` | De volledige AOSP/EvolutionX-bron |
@@ -100,6 +101,10 @@ sudo systemctl mask systemd-oomd.service systemd-oomd.socket
 ---
 
 ## Een nieuwe build maken
+
+> **Device-tree fork bijwerken**: de device tree komt uit je eigen fork, dus nieuwe
+> upstream-fixes komen niet automatisch binnen. Draai vóór het bouwen eventueel
+> `./sync-device-tree.sh` om de fork met upstream te synchroniseren.
 
 ```bash
 ./build.sh
