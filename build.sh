@@ -32,3 +32,10 @@ docker exec garnet-builder bash -c '
 echo
 echo "Log: $LOG"
 echo "Output zip: $(pwd)/src/out/target/product/garnet/EvolutionX-16.0-*-garnet-11.11-Unofficial.zip"
+
+# Vraag of de release gepubliceerd moet worden (upload + OTA-JSON).
+echo
+read -r -p "Release publiceren (SourceForge-upload + OTA-JSON naar GitHub)? [j/N] " REPLY
+if [[ "$REPLY" =~ ^[Jj]$ ]]; then
+  PUBLISH=1 ./release.sh
+fi

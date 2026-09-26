@@ -89,6 +89,7 @@ sudo systemctl mask systemd-oomd.service systemd-oomd.socket
 | `build.sh` | Sync + build (de "volgende build") |
 | `check-updates.sh` | Controleert of er nieuwe upstream-commits zijn |
 | `release.sh` | Publiceert een nieuwe build als OTA (SourceForge-upload + JSON) |
+| `setup-keys.sh` | Kopieert release-signing keys naar de build-tree (release-keys) |
 | `local_manifests/garnet.xml` | Versied copy van de local_manifest (device tree wijst naar eigen fork) |
 | `ota/garnet.json` | OTA-metadata die de Updater-app op het toestel uitleest |
 | `src/` | De volledige AOSP/EvolutionX-bron |
@@ -105,7 +106,8 @@ sudo systemctl mask systemd-oomd.service systemd-oomd.socket
 
 Dit start (indien nodig) de container, synct de bron (`repo sync`) en draait
 `m evolution -j16`. De output wordt tegelijk op het scherm getoond en naar
-`src/build-<tijdstip>.log` weggeschreven.
+`src/build-<tijdstip>.log` weggeschreven. Aan het einde vraagt het script of je de
+release direct wilt publiceren (SourceForge-upload + OTA-JSON).
 
 ### Handmatig (zonder script)
 
@@ -204,10 +206,17 @@ Updater-app. (`SF_USER`/`SF_PROJECT` zijn standaard al `hayqe`/`garnet-evolution
 
 ### Signing
 
-Voor OTA tussen builds is een *consistente* signeerkey nodig. Zonder eigen key bouw
-je met de publieke testkeys — dat werkt voor OTA, maar is onveilig en biedt geen
-Play Integrity. Met een eigen release key blijft de identiteit stabiel.
+Voor OTA tussen builds is een *consistente* signeerkey nodig. Je bouwt met je eigen
+release key (niet de publieke testkeys) door:
 
-De keys zijn al gegenereerd in `~/.android-certs/`. Het daadwerkelijke
-release-signen (`sign_target_files_apks` + `ota_from_target_files`) is een losse
-stap die vóór de eerste OTA-build moet worden uitgevoerd.
+```bash
+./setup-keys.sh
+```
+
+Dit kopieert de keys van `~/.android-certs/` naar `src/vendor/evolution-priv/keys/`
+en schrijft `keys.mk`. EvolutionX pikt die automatisch op, waardoor de build met
+`release-keys` wordt getekend (in plaats van `test-keys`).
+
+> ⚠️ De private keys in `src/vendor/evolution-priv/keys/` worden **niet** gecommit
+> (valt onder `src/` in `.gitignore`). Bewaar `~/.android-certs/` veilig — raak je de
+> key kwijt, dan moet je opnieuw clean flashen.
