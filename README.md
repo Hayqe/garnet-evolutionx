@@ -187,18 +187,17 @@ en downloadt de update; de JSON wordt in deze repo gehost, de ROM-zip op SourceF
 ### Een update uitbrengen
 
 ```bash
-SF_USER=<jouw-sourceforge-gebruiker> \
-SF_PROJECT=<jouw-sourceforge-project> \
-PUBLISH=1 \
-./release.sh
+PUBLISH=1 ./release.sh
 ```
 
-Dit uploadt de zip naar SourceForge, schrijft `ota/garnet.json` en pusht de JSON
-naar GitHub. Enkele minuten later zien toestellen de update in de Updater-app.
+Dit uploadt de zip naar SourceForge (`garnet-evolutionx`), schrijft `ota/garnet.json`
+en pusht de JSON naar GitHub. Enkele minuten later zien toestellen de update in de
+Updater-app. (`SF_USER`/`SF_PROJECT` zijn standaard al `hayqe`/`garnet-evolutionx`.)
 
 ### Vereisten (eenmalig)
 
-- **SourceForge-project** met een SSH-key op je account (`SF_USER` / `SF_PROJECT`).
+- **SourceForge-project** `garnet-evolutionx` met een SSH-key op je account
+  (`SF_USER` / `SF_PROJECT`).
 - **GitHub-repo's** `garnet-evolutionx` (deze repo) en een fork van
   `device_xiaomi_garnet` met de `UpdaterOverlayGarnet`-overlay.
 - **Signing-keys** in `~/.android-certs/` (eigen release key, zie hieronder).

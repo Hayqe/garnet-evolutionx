@@ -13,9 +13,9 @@ DEVICE="garnet"
 VERSION="11.11"          # = ro.modversion (EVO_VERSION)
 MAINTAINER="Hayqe"
 
-# SourceForge (upload via SSH/rsync; zet een SSH-key op je SourceForge-account)
-SF_USER="${SF_USER:-}"
-SF_PROJECT="${SF_PROJECT:-}"
+# SourceForge (upload via SSH/rsync)
+SF_USER="${SF_USER:-hayqe}"
+SF_PROJECT="${SF_PROJECT:-garnet-evolutionx}"
 SF_DIR="${SF_DIR:-garnet}"            # map binnen het SourceForge-project
 
 # OTA-JSON in deze repo (gehost op raw.githubusercontent.com/.../ota/{device}.json)
@@ -39,6 +39,7 @@ TIMESTAMP="$(date +%s)"   # > ro.build.date.utc van de vorige build → update w
 # --- Upload naar SourceForge ------------------------------------------------
 if [ -n "$SF_USER" ] && [ -n "$SF_PROJECT" ]; then
   echo "Uploaden naar SourceForge (${SF_PROJECT}/${SF_DIR})..."
+  ssh "${SF_USER}@frs.sourceforge.net" "mkdir -p /home/frs/project/${SF_PROJECT}/${SF_DIR}" 2>/dev/null || true
   rsync -avP -e ssh "$ZIP" "${SF_USER}@frs.sourceforge.net:/home/frs/project/${SF_PROJECT}/${SF_DIR}/"
   DOWNLOAD_URL="https://downloads.sourceforge.net/project/${SF_PROJECT}/${SF_DIR}/${FILENAME}"
 else
